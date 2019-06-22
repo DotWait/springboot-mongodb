@@ -1,15 +1,16 @@
 package com.dotwait.springbootmongodb.config;
 
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientOptions;
-import com.mongodb.ReadPreference;
+import com.mongodb.*;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.mongodb.MongoDbFactory;
+import org.springframework.data.mongodb.core.SimpleMongoClientDbFactory;
 
 public class MongoConfig {
     private MongoProperties mongoProperties;
 
     @Bean
-    public MongoClientOptions mongoClientOptions(){
+    public MongoClientOptions getMongoClientOptions() {
         return MongoClientOptions.builder()
                 //每个主机允许的最大连接数，这些连接在空闲时将保持在连接池中。
                 // 当连接池耗尽后，任何需要连接的操作都将被阻塞并等待可用连接。
@@ -60,7 +61,24 @@ public class MongoConfig {
     }
 
     @Bean
-    public MongoClient mongoClient(){
-        return new MongoClient();
+    public MongoClient mongoClient() {
+        String userName = mongoProperties.getUserName();
+        MongoClient mongoClient;
+        if (StringUtils.isBlank(userName)) {
+            mongoClient = new MongoClient(
+                    new ServerAddress(mongoProperties.getHost()),
+                    getMongoClientOptions());
+        } else {
+            MongoCredential credential = MongoCredential.createCredential(
+                    mongoProperties.getUserName(),
+                    mongoProperties.getDatabase(),
+                    mongoProperties.getPassword().toCharArray());
+            mongoClient = new MongoClient(
+                    new ServerAddress(mongoProperties.getHost(), mongoProperties.getPort()),
+                    credential,
+                    getMongoClientOptions());
+        }
+        return mongoClient;
     }
+
 }
