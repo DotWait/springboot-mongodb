@@ -1,11 +1,18 @@
 package com.dotwait.springbootmongodb.config;
 
-import com.mongodb.*;
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientOptions;
+import com.mongodb.MongoCredential;
+import com.mongodb.ReadPreference;
+import com.mongodb.ServerAddress;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.MongoDbFactory;
-import org.springframework.data.mongodb.core.SimpleMongoClientDbFactory;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
 
+@Configuration
 public class MongoConfig {
     private MongoProperties mongoProperties;
 
@@ -79,6 +86,16 @@ public class MongoConfig {
                     getMongoClientOptions());
         }
         return mongoClient;
+    }
+
+    @Bean
+    public MongoDbFactory mongoDbFactory(){
+        return new SimpleMongoDbFactory(mongoClient(), mongoProperties.getDatabase());
+    }
+
+    @Bean
+    public MongoTemplate mongoTemplate(){
+        return new MongoTemplate(mongoDbFactory());
     }
 
 }
