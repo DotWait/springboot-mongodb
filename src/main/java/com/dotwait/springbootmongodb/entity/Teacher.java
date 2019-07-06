@@ -35,4 +35,13 @@ public class Teacher {
     public void setTechCourses(List<String> techCourses) {
         this.techCourses = techCourses;
     }
+
+    @Override
+    public String toString() {
+        return "Teacher{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", techCourses=" + techCourses +
+                '}';
+    }
 }

@@ -99,7 +99,7 @@ public class MongoConfig {
 
     @Bean
     public MongoTemplate mongoTemplate(){
-        return new MongoTemplate(mongoDbFactory());
+        return new MongoTemplate(mongoDbFactory(), null);
     }
 
 }

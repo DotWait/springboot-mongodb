@@ -1,15 +1,13 @@
 package com.dotwait.springbootmongodb.dao.impl;
 
 import com.dotwait.springbootmongodb.dao.InsertRepository;
-import com.dotwait.springbootmongodb.entity.Course;
-import com.dotwait.springbootmongodb.entity.Student;
-import com.dotwait.springbootmongodb.entity.Teacher;
-import com.dotwait.springbootmongodb.entity.UserInfo;
+import com.dotwait.springbootmongodb.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.BulkOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 

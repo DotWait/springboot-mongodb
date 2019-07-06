@@ -53,4 +53,15 @@ public class Course {
     public void setStudents(List<String> students) {
         this.students = students;
     }
+
+    @Override
+    public String toString() {
+        return "Course{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", teacher='" + teacher + '\'' +
+                ", numofStu=" + numofStu +
+                ", students=" + students +
+                '}';
+    }
 }

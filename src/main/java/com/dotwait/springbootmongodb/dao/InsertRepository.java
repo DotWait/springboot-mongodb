@@ -1,9 +1,6 @@
 package com.dotwait.springbootmongodb.dao;
 
-import com.dotwait.springbootmongodb.entity.Course;
-import com.dotwait.springbootmongodb.entity.Student;
-import com.dotwait.springbootmongodb.entity.Teacher;
-import com.dotwait.springbootmongodb.entity.UserInfo;
+import com.dotwait.springbootmongodb.entity.*;
 
 import java.util.List;
 
@@ -38,5 +35,4 @@ public interface InsertRepository {
     void insertOneCourse(Course course);
 
     int bulkInsertCourses(List<Course> courses);
-
 }

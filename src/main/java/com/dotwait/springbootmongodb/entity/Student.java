@@ -1,21 +1,36 @@
 package com.dotwait.springbootmongodb.entity;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.TextIndexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Document
 public class Student {
     @Id
     private String id;
-    private int stuNum;
+    @TextIndexed
+    private Integer stuNum;
+    @TextIndexed
     private String name;
-    private int age;
+    @TextIndexed
+    private Integer age;
+    @TextIndexed
+    private String city;
     private String[] hobby;
     private List<String> friends;
     private List<Course> courses;
     private List<Teacher> teachers;
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
 
     public String getId() {
         return id;
@@ -79,5 +94,20 @@ public class Student {
 
     public void setTeachers(List<Teacher> teachers) {
         this.teachers = teachers;
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "id='" + id + '\'' +
+                ", stuNum=" + stuNum +
+                ", name='" + name + '\'' +
+                ", age=" + age +
+                ", city='" + city + '\'' +
+                ", hobby=" + Arrays.toString(hobby) +
+                ", friends=" + friends +
+                ", courses=" + courses +
+                ", teachers=" + teachers +
+                '}';
     }
 }
