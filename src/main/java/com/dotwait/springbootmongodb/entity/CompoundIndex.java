@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
 
-@Document
+@Document(collection = "test")
 @CompoundIndexes(
         @org.springframework.data.mongodb.core.index.CompoundIndex(name = "name_location",
         def = "{\"name\":1,\"location\":1}")

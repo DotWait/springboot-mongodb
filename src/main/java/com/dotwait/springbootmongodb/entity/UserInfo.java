@@ -1,8 +1,10 @@
 package com.dotwait.springbootmongodb.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Date;
 import java.util.List;
 
 @Document
@@ -13,6 +15,16 @@ public class UserInfo {
     private int age;
     private String city;
     private List<String> friends;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date time;
+
+    public Date getTime() {
+        return time;
+    }
+
+    public void setTime(Date time) {
+        this.time = time;
+    }
 
     public String getId() {
         return id;
@@ -52,5 +64,17 @@ public class UserInfo {
 
     public void setFriends(List<String> friends) {
         this.friends = friends;
+    }
+
+    @Override
+    public String toString() {
+        return "UserInfo{" +
+                "id='" + id + '\'' +
+                ", userName='" + userName + '\'' +
+                ", age=" + age +
+                ", city='" + city + '\'' +
+                ", friends=" + friends +
+                ", time=" + time +
+                '}';
     }
 }

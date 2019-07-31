@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -53,10 +54,14 @@ public class InsertRepositoryTests {
     }
 
     private void initOneUser() {
+        long currentTimeMillis = System.currentTimeMillis();
+        long lastWholePoint = currentTimeMillis - currentTimeMillis % (3600 * 1000L);
+        Date date = new Date(lastWholePoint);
         userInfo = new UserInfo();
         userInfo.setAge(random.nextInt(100));
         userInfo.setCity(Citys.getCity(random.nextInt(3)));
         userInfo.setUserName("Make");
+        userInfo.setTime(date);
     }
 
     private void initUsers(int num) {
@@ -66,6 +71,7 @@ public class InsertRepositoryTests {
             userInfo.setAge(random.nextInt(100));
             userInfo.setCity(Citys.getCity(random.nextInt(3)));
             userInfo.setUserName("Make" + i);
+            userInfo.setTime(new Date());
             userInfos.add(userInfo);
         }
     }

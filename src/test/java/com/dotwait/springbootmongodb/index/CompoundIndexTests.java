@@ -30,7 +30,7 @@ public class CompoundIndexTests {
 
     @Test
     public void compoundIndexTest(){
-        for(int j=0;j<10;j++){
+//        for(int j=0;j<10;j++){
             BulkOperations bulkOps = mongoTemplate.bulkOps(BulkOperations.BulkMode.UNORDERED, CompoundIndex.class);
             List<CompoundIndex> list = new ArrayList<>(1000000);
             for(int i=0;i<1000000;i++){
@@ -46,8 +46,11 @@ public class CompoundIndexTests {
                 list.add(compoundIndex);
             }
             bulkOps.insert(list);
+            long start = System.currentTimeMillis();
             bulkOps.execute();
-        }
+            long end = System.currentTimeMillis();
+        System.out.println(end-start+"ms");
+//        }
     }
 
     @Test

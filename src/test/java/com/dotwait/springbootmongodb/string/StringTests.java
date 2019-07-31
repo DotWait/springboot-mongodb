@@ -93,4 +93,43 @@ public class StringTests {
         JSONObject jsonObject = JSONObject.parseObject(str);
         System.out.println(jsonObject);
     }
+
+    @Test
+    public void integerTest(){
+        Integer i = 0xffffff;
+        int i1 = Integer.lowestOneBit(i);
+        System.out.println(i1);
+
+        int i2 = -1;
+        System.out.println(Integer.highestOneBit(i2));
+
+        int i3 = 1 >>> -2;
+        System.out.println(i3);
+
+        int i4 = -1 >> 31;
+        int i5 = -1 >>> 31;
+        System.out.println(i4 + "," + i5 + "," + (i4 | i5));
+
+        Integer i6 = 129;
+        Integer i7 = 129;
+        Integer i8 = 127;
+        Integer i9 = 127;
+        System.out.println(i6 == i7);
+        System.out.println(i8 == i9);
+    }
+
+    @Test
+    public void longTest(){
+        String l = "1231234124123123";
+        Long decode = Long.decode(l);
+        System.out.println(decode);
+        long l1 = Long.parseLong(l);
+        System.out.println(l1);
+        Long i6 = 129L;
+        Long i7 = 129L;
+        Long i8 = 127L;
+        Long i9 = 127L;
+        System.out.println(i6 == i7);
+        System.out.println(i8 == i9);
+    }
 }
