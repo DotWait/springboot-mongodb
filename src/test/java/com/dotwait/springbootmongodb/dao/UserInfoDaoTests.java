@@ -2,6 +2,7 @@ package com.dotwait.springbootmongodb.dao;
 
 import com.dotwait.springbootmongodb.entity.Student;
 import com.dotwait.springbootmongodb.entity.User1;
+import com.dotwait.springbootmongodb.entity.User2;
 import com.dotwait.springbootmongodb.entity.UserInfo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,5 +36,13 @@ public class UserInfoDaoTests {
         objectOutputStream.writeObject(user1);
         objectOutputStream.flush();
         objectOutputStream.close();
+    }
+    @Test
+    public void test1() throws IOException, ClassNotFoundException {
+        File file = new File("D:/test/test.txt");
+        ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(file));
+        Object object = objectInputStream.readObject();
+        System.out.println(object);
+        System.out.println((User1)object);
     }
 }

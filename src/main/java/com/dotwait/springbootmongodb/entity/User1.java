@@ -30,4 +30,13 @@ public class User1 implements Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    @Override
+    public String toString() {
+        return "User1{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }
