@@ -13,9 +13,9 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -62,6 +62,14 @@ public class CompoundIndexTests {
         List<CompoundIndex> list = mongoTemplate.find(query, CompoundIndex.class);
         long end = System.currentTimeMillis();
         System.out.println("end - start = "+(end-start)+"ms,size="+list.size());
+    }
+
+    @Test
+    public void test(){
+        Map<String, String> map = new HashMap<>();
+        List<String> list = new LinkedList<>();
+        Map<String,String> table = new Hashtable<>();
+        Map<String, String> syncMap = new ConcurrentHashMap<>();
     }
 
 }

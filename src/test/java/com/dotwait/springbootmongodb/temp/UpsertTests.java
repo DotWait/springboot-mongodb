@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
@@ -16,6 +17,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.lang.reflect.Array;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -154,5 +157,62 @@ public class UpsertTests {
         expireTimestamp.setStoreId(2);
         expireTimestamp.setExpireAt(now + 60*1000);
         mongoTemplate.insert(expireTimestamp);
+    }
+
+    @Test
+    public void pattern(){
+//        String regex = "\\d\\S*";
+        String newRegex = "\\d((?!(\r\n)).)*";
+        Pattern pattern = Pattern.compile(newRegex);
+        Matcher matcher = pattern.matcher("skdfjlakjkjf: 31231 14324\r\naskdjfkasf\r\nsdddd: 6234.123\r\nsdfas\r\nwwwww: 444-1231-213");
+        System.out.println("start count=>"+matcher.groupCount());
+        if (matcher.find()){
+            int i = matcher.groupCount();
+            System.out.println("count=>"+i);
+            System.out.println("0=>"+matcher.group(0));
+        }
+    }
+
+    @Test
+    public void insertPicRecord(){
+        long updateTime = System.currentTimeMillis();
+        List<PicRecord> picRecords = new ArrayList<>();
+        for(int i=0;i<10;i++){
+            PicRecord picRecord = new PicRecord();
+            picRecord.setLastUpdateTime(updateTime);
+            picRecord.setPicUrl("picUrl"+i);
+            picRecords.add(picRecord);
+        }
+        for(int i=10;i<20;i++){
+            PicRecord picRecord = new PicRecord();
+            picRecord.setLastUpdateTime(updateTime);
+            picRecord.setPicUrl("picUrl"+i);
+            List<String> screenIds = new ArrayList<>();
+            screenIds.add("screenId"+(i-10));
+            picRecord.setScreenIds(screenIds);
+            picRecords.add(picRecord);
+        }
+        for(int i=20;i<30;i++){
+            PicRecord picRecord = new PicRecord();
+            picRecord.setLastUpdateTime(updateTime);
+            picRecord.setPicUrl("picUrl"+i);
+            List<String> screenIds = new ArrayList<>();
+            screenIds.add("screenId"+(i-10));
+            screenIds.add("screenId"+(i-20));
+            picRecord.setScreenIds(screenIds);
+            picRecords.add(picRecord);
+        }
+        mongoTemplate.insert(picRecords, PicRecord.class);
+    }
+
+    @Test
+    public void save(){
+        long updateTime = System.currentTimeMillis();
+        System.out.println("updateTime:"+updateTime);
+        Query query = new Query().addCriteria(Criteria.where("screenIds").is("screenId1"));
+        Update update = new Update().push("screenIds", "screenId1").set("lastUpdateTime", updateTime);
+        UpdateResult updateResult = mongoTemplate.updateMulti(query, update, PicRecord.class);
+        System.out.println(updateResult.getMatchedCount());
+        System.out.println(updateResult.getModifiedCount());
     }
 }

@@ -18,7 +18,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.security.acl.Group;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -31,12 +33,26 @@ public class ScreenRepositoryTests {
         UnwindOperation unwindOperation = UnwindOperation.newUnwind().path("screenIds").noArrayIndex().skipNullAndEmptyArrays();
 //        LookupOperation lookupOperation = LookupOperation.newLookup().from("screen").localField("screenIds").foreignField("id").as("newScreen");
         ProjectionOperation projectionOperation = Aggregation.project("screenIds");
-        GroupOperation group = Aggregation.group("screenIds", "id");
-        Aggregation aggregation = Aggregation.newAggregation(unwindOperation, group);
-        List<ScreenId> picRecord = mongoTemplate.aggregate(aggregation, "picRecord", ScreenId.class).getMappedResults();
+//        GroupOperation group = Aggregation.group("screenIds").count().as("sum");
+        Aggregation aggregation = Aggregation.newAggregation(unwindOperation, projectionOperation);
+        List<String> picRecord = mongoTemplate.aggregate(aggregation, "picRecord", ScreenId.class).getMappedResults()
+                .stream().map(ScreenId::getScreenIds).distinct().collect(Collectors.toList());
         picRecord.forEach(System.out::println);
         System.out.println("count==>"+picRecord.size());
 
+    }
+
+    private static final long ONE_DAY = 24L*3600*1000;
+    @Test
+    public void insertMany(){
+        List<PicRecord> picRecords = new ArrayList<>();
+        for (int i=0;i<10;i++){
+            List<String> screenIds = new ArrayList<>();
+            screenIds.add("screenId"+i);
+            PicRecord picRecord = new PicRecord("picUrl"+i, "storagePath"+i, screenIds, System.currentTimeMillis()-ONE_DAY);
+            picRecords.add(picRecord);
+        }
+        mongoTemplate.insert(picRecords, PicRecord.class);
     }
 
     @Test
